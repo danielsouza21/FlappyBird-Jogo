@@ -44,16 +44,20 @@ class ParDeBarreiras {
     this.superior = new barreira(true);
     this.inferior = new barreira(false);
 
-    this.SupHeight = Math.random() * (height - gap);
-    this.InfHeight = height - this.SupHeight - gap;
-
-    this.superior.setHeight(this.SupHeight);
-    this.inferior.setHeight(this.InfHeight);
+    this.sortGap();
 
     this.element.appendChild(this.superior.element);
     this.element.appendChild(this.inferior.element);
 
     this.setX(x);
+  }
+
+  sortGap() {
+    this.SupHeight = Math.random() * (this.height - this.gap);
+    this.InfHeight = this.height - this.SupHeight - this.gap;
+
+    this.superior.setHeight(this.SupHeight);
+    this.inferior.setHeight(this.InfHeight);
   }
 
   getX() {
