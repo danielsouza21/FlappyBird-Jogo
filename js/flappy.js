@@ -22,7 +22,7 @@ class PlotBarreiras {
     this.pares.forEach((par) => {
       par.setX(par.getX() - this.displacement);
 
-      if (par.getX() < par.getLargura()) {
+      if (par.getX() < par.getLargura() - 50) {
         par.setX(par.getX() + this.space * this.pares.length);
         par.sortGap();
       }
@@ -37,7 +37,6 @@ class PlotBarreiras {
 
 class Passaro {
   constructor(gameHeight) {
-    //poderia/deveria ser uma class
     this.voando = false;
     this.gameHeight = gameHeight;
 
@@ -45,8 +44,12 @@ class Passaro {
     this.element.src = "imgs/passaro.png";
     this.setY(300);
 
-    window.onkeydown = (e) => (this.voando = true);
-    window.onkeyup = (e) => (this.voando = false);
+    window.onkeydown = (e) => {
+      this.voando = true;
+    };
+    window.onkeyup = (e) => {
+      this.voando = false;
+    };
   }
 
   getY() {
@@ -54,13 +57,12 @@ class Passaro {
   }
 
   setY(new_y) {
-    this.element.style.bottom = new_y;
+    this.element.style.bottom = `${new_y}px`;
   }
 
   animar() {
     const newY = this.getY() + (this.voando ? 8 : -5);
-    const maxY = this.gameHeight - this.element.clientHeight;
-
+    const maxY = this.gameHeight.split("px")[0] - this.element.clientHeight;
     if (newY <= 0) {
       this.setY(0);
     } else if (newY >= maxY) {
@@ -68,14 +70,16 @@ class Passaro {
     } else {
       this.setY(newY);
     }
-
-    this.setY(this.gameHeight / 2);
-    //console.log(this.getY());
   }
 }
 
-const barreiras = new PlotBarreiras(700, 1200, 200, 400);
-const passaro = new Passaro(700);
+const divFlappy = window.getComputedStyle(
+  document.querySelector("[wm-flappy]")
+);
+var GameHeight = divFlappy.getPropertyValue("height");
+
+const barreiras = new PlotBarreiras(800, 1200, 200, 400);
+const passaro = new Passaro(GameHeight);
 const areagame = document.querySelector("[wm-flappy]");
 areagame.appendChild(passaro.element);
 barreiras.pares.forEach((par) => {
