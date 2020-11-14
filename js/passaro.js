@@ -5,7 +5,7 @@ class Passaro {
 
     this.element = HTML_newElement("img", "passaro");
     this.element.src = "imgs/passaro.png";
-    this.setY(300);
+    this.setY(gameHeight * 0.6);
 
     window.onkeydown = (e) => {
       this.voando = true;
@@ -24,8 +24,8 @@ class Passaro {
   }
 
   animar() {
-    const newY = this.getY() + (this.voando ? 8 : -5);
-    const maxY = this.gameHeight.split("px")[0] - this.element.clientHeight;
+    const newY = this.getY() + (this.voando ? 2 : -1.1);
+    const maxY = this.gameHeight - this.element.clientHeight;
     if (newY <= 0) {
       this.setY(0);
     } else if (newY >= maxY) {

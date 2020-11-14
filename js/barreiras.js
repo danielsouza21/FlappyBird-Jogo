@@ -71,3 +71,39 @@ class ParDeBarreiras {
     return this.element.clientWidth;
   }
 }
+
+class PlotBarreiras {
+  constructor(height, width, gap, space, pointNotify) {
+    this.space = space;
+    this.height = height;
+    this.width = width;
+    this.gap = gap;
+    this.pointNotify = pointNotify;
+
+    this.pares = [
+      new ParDeBarreiras(height, gap, width),
+      new ParDeBarreiras(height, gap, width + space),
+      new ParDeBarreiras(height, gap, width + space * 2),
+      new ParDeBarreiras(height, gap, width + space * 3),
+    ];
+
+    this.displacement = 0.75; //velocidade em 'px' do jogo
+  }
+
+  animar = function () {
+    //atualiza cada barreira
+    this.pares.forEach((par) => {
+      par.setX(par.getX() - this.displacement);
+
+      if (par.getX() < par.getLargura() - 50) {
+        par.setX(par.getX() + this.space * this.pares.length);
+        par.sortGap();
+      }
+
+      const meio = this.width / 2;
+      if (par.getX() + this.displacement >= meio && par.getX() <= meio) {
+        this.pointNotify();
+      }
+    });
+  };
+}
